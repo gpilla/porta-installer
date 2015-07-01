@@ -13,7 +13,7 @@ use RuntimeException;
 
 class PortalBundleInstaller extends LibraryInstaller
 {
-    const PATH_BUNDLES = 'src';
+    const PATH_BUNDLES = 'bundles';
 
     /**
      * Decides if the installer supports the given type.
@@ -73,7 +73,16 @@ class PortalBundleInstaller extends LibraryInstaller
                 $package = $package_dir->getFileName();
 
                 // TODO: Agregar mas validaciones
-                $bundles["$vendor\\$package"] = $package;
+                $composerJsonFile = $package_dir->getPath().'/composer.json';
+                if (file_exists($composerJsonFile)) {
+                    $json = file_get_contents($composerJsonFile);
+                    $data = $json_decode($json);
+                    if (isset($data['extra']['class'])) {
+                        // TODO: Agregar Exception
+                        $bundles["$vendor\\$package"] = $data['extra']['class'];
+                    }
+                }
+
 
             }
         }
@@ -85,8 +94,8 @@ class PortalBundleInstaller extends LibraryInstaller
         $bundles = $this->determineBundles($path);
         file_put_contents('vendor/portal-autoload.php', "<?php \n\n" );
         file_put_contents('vendor/portal-autoload.php', "//Autoload de Bundles del Portal \n\n", FILE_APPEND );
-        foreach ($bundles as $bundlePath => $bundle) {
-            $data = '$bundles[] = '."new $bundlePath\\$bundle();\n";
+        foreach ($bundles as $class) {
+            $data = '$bundles[] = '."new $class();\n";
             file_put_contents('vendor/portal-autoload.php', $data, FILE_APPEND);
         }
     }
