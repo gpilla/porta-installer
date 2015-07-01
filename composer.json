@@ -1,0 +1,21 @@
+{
+    "name": "gpilla/portal-installer",
+    "description": "Instalador de Modulos del Portal",
+    "type": "composer-installer",
+    "require-dev": {
+        "composer/composer": "1.0.*@dev",
+        "phpunit/phpunit": "4.7.6"
+    },
+    "authors": [
+        {
+            "name": "Gustavo Pilla",
+            "email": "gustavo.pilla@unq.edu.ar"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "gpilla\\PortalInstaller\\": "src"
+        }
+    },
+    "minimum-stability": "dev"
+}
