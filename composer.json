@@ -17,5 +17,8 @@
             "gpilla\\PortalInstaller\\": "src"
         }
     },
+    "extra": {
+        "class": "gpilla\\PortalInstaller\\Installer\\PortalBundleInstaller"
+    },
     "minimum-stability": "dev"
 }
